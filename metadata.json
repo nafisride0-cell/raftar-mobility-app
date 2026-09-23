@@ -1,0 +1,6 @@
+{
+  "name": "Nafis Ride",
+  "description": "Production-grade multi-state ride-sharing mobile platform operating across Rajasthan and Karnataka with Capacitor 8 integration, live GPS tracking, and Fast2SMS OTP.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
