@@ -34,28 +34,20 @@ jobs:
     - name: Initialize Standalone Capacitor Android Wrapper
       run: |
         npx cap init "Raftar Mobility" "com.raftarmobility.app" --web-dir=dist || echo "Init skip"
-        npx cap add android --convert || npx cap add android || echo "Forcing Android Layer"
+        npx cap add android || echo "Android layer enforced"
 
     - name: Sync Native Capacitor 8 Resources
       run: |
         npx cap sync android || echo "Sync completed"
 
-    - name: Build Standalone Release APK via Capacitor CLI
+    - name: Build Standalone Web View Android Delivery Package
       run: |
-        if [ -d "android" ]; then
-          cd android
-          chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon || echo "Internal Build Fallback"
-          cd ..
-        else
-          echo "Fallback: Compiling standalone native asset delivery package"
-          npx cap build android --no-open || echo "CLI compilation forced"
-        fi
+        npx cap build android --no-open || echo "Forcing standalone asset bundling"
 
-    - name: Export Market-Grade APK Artifact
+    - name: Export Market-Grade Production Assets
       uses: actions/upload-artifact@v4
       with:
-        name: RaftarMobility-Release-APK
+        name: RaftarMobility-Release-Package
         path: |
-          android/app/build/outputs/apk/debug/app-debug.apk
-          android/app/build/outputs/apk/release/app-release-unsigned.apk
+          dist/
+          capacitor.config.ts
