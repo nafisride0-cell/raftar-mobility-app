@@ -16,7 +16,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: 20.x
-        cache: 'npm'
 
     - name: Install Project Dependencies
       run: npm install || npm install --legacy-peer-deps
@@ -29,14 +28,6 @@ jobs:
       with:
         distribution: 'zulu'
         java-version: '17'
-
-    - name: Cache Gradle Dependencies
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~57].gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
 
     - name: Sync Native Capacitor 8 Resources
       run: npx cap sync android || echo "Sync pending configuration assets"
