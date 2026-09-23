@@ -29,11 +29,11 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
-    - name: Initialize Missing Capacitor Native Android Layout
+    - name: Create Missing Android Native Project Folder
       run: |
         npm install @capacitor/cli @capacitor/android
-        npx cap init "Raftar Mobility" "com.raftarmobility.app" --web-dir=dist || echo "Already initialized"
-        npx cap add android || echo "Android layer already created"
+        npx cap init "Raftar Mobility" "com.raftarmobility.app" --web-dir=dist || echo "Already init"
+        npx cap add android || echo "Android folder exists"
 
     - name: Sync Native Capacitor 8 Resources
       run: npx cap sync android
