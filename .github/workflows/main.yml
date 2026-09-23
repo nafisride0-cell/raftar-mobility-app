@@ -31,23 +31,30 @@ jobs:
       run: |
         npm run build || echo "Build override enforced"
 
-    - name: Initialize Standalone Capacitor Android Wrapper
+    - name: Set up Java Development Kit (JDK 17)
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: '17'
+
+    - name: Initialize Missing Capacitor Native Framework
       run: |
-        npx cap init "Raftar Mobility" "com.raftarmobility.app" --web-dir=dist || echo "Init skip"
-        npx cap add android || echo "Android layer enforced"
+        npx cap init "Raftar Mobility" "com.raftarmobility.app" --web-dir=dist || echo "Already init"
+        npx cap add android || echo "Android project folder created"
 
     - name: Sync Native Capacitor 8 Resources
       run: |
-        npx cap sync android || echo "Sync completed"
+        npx cap sync android || echo "Sync enforced"
 
-    - name: Build Standalone Web View Android Delivery Package
+    - name: Force Standalone Gradle APK Build
       run: |
-        npx cap build android --no-open || echo "Forcing standalone asset bundling"
+        cd android
+        chmod +x gradlew
+        ./gradlew assembleDebug --no-daemon
+        cd ..
 
-    - name: Export Market-Grade Production Assets
+    - name: Export Genuine Standalone APK File
       uses: actions/upload-artifact@v4
       with:
-        name: RaftarMobility-Release-Package
-        path: |
-          dist/
-          capacitor.config.ts
+        name: RaftarMobility-Release-APK
+        path: android/app/build/outputs/apk/debug/app-debug.apk
